@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/zepto/1.0rc1/zepto.min.js"></script>
+    <link href="https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+    <style type="text/css">
+        blockquote, body, button, dd, dl, dt, fieldset, form, h1, h2, h3, h4, h5, h6, hr, input, legend, li, ol, ul, p, pre, td, textarea, th, img {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: black;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        li {
+            box-sizing:border-box;
+            overflow: hidden;
+            float: left;
+        }
+        #large{
+            position:absolute;
+            width:100%;
+            height:100%;
+            top:0;
+            left:0;
+            background:black;
+            display:none;
+        }
+    </style>
+</head>
+<body>
+<ul id="container" class="img-container">
+</ul>
+<div id="large" class="animated fadeIn">
+    <img id="large-image" src="../source/pic1.jpg"/>
+</div>
+<script>
+    var total = 6;
+    var render = function () {
+        var padding = 2;
+        var windowWidth = $(window).width();
+        var picWidth = Math.floor(windowWidth/4);
+        var tmp='';
+        for(var i=1;i<=total;i++){
+            var p=padding;
+            if(i%4==1){
+                p=0;
+            }
+            var imgSrc='http://ok47spofd.bkt.clouddn.com/pic'+i+'.jpg';
+            tmp+='<li id="'+i+'" class="animated bounceIn" style="width:'+picWidth+'px;height:'+picWidth+'px;padding-left:'+p+'px;padding-top:'+padding+'px"><canvas id="cvs'+i+'"></canvas></li>';
+            var imgObj=new Image();
+            imgObj.src=imgSrc;
+            (function (i) {
+                imgObj.onload=function () {
+                    var cvs=$("#cvs"+i)[0];
+                    var ctx=cvs.getContext("2d");
+                    cvs.width=this.width;
+                    cvs.height=this.height;
+                    ctx.drawImage(this,0,0);
+                };
+            })(i);
+
+            /*imgObj.index=i;
+             imgObj.onload=function () {
+             var cvs=$("#cvs"+this.index)[0];
+             var ctx=cvs.getContext("2d");
+             cvs.width=this.width;
+             cvs.height=this.height;
+             ctx.drawImage(this,0,0);
+             };*/
+        }
+        $("#container").html(tmp);
+    };
+    function loadImg(id,callback){
+        $("#large").show();
+        var imgSrc='http://ok47spofd.bkt.clouddn.com/pic'+id+'.jpg';
+        var imgObj=new Image();
+        imgObj.src=imgSrc;
+        imgObj.onload=function () {
+            var windowWidth = $(window).width();
+            var windowHeight =$(window).height();
+            var picWidth = this.width;
+            var picHeight = this.height;
+            var percent=picHeight/picWidth;
+            var paddingLeft=Math.floor((windowWidth-windowHeight/percent)/2);
+            var paddingTop=Math.floor((windowHeight-percent*windowWidth)/2);
+            $("#large").css({'padding-left':0,'padding-top':0});
+            $("#large-image").css({'width':'auto','height':'auto'});
+            if(percent>1.2){
+                $("#large").css({'padding-left':paddingLeft});
+                $("#large-image").css({'height':windowHeight}).attr('src',imgSrc);
+            }else{
+                $("#large").css({'padding-top':paddingTop});
+                $("#large-image").css({'width':windowWidth}).attr('src',imgSrc);
+            }
+            callback && callback();
+        };
+
+    }
+    var cid;
+    var imgDOM=$("#large-image")[0];
+    $("#container").delegate('li','tap',function () {
+        var _id=$(this).attr('id');
+        cid=_id;
+        loadImg(_id);
+    });
+    $("#large").tap(function () {
+       $(this).hide();
+    }).swipeLeft(function () {
+        cid++;
+        if(cid>total){
+            cid=total;
+        }else{
+            loadImg(cid,function () {
+                var handle=function () {
+                    $("#large-image").removeClass('animated bounceInRight');
+                    imgDOM.removeEventListener('webkitAnimationEnd',handle,false);
+                };
+                imgDOM.addEventListener('webkitAnimationEnd',handle,false);
+                $("#large-image").addClass('animated bounceInRight');
+            });
+        }
+    }).swipeRight(function () {
+        cid--;
+        if(cid<1){
+            cid=1;
+        }else{
+            loadImg(cid,function () {
+                var handle=function () {
+                    $("#large-image").removeClass('animated bounceInLeft');
+                    imgDOM.removeEventListener('webkitAnimationEnd',handle,false);
+                };
+                imgDOM.addEventListener('webkitAnimationEnd',handle,false);
+                $("#large-image").addClass('animated bounceInLeft');
+            });
+        }
+
+    });
+    render();
+</script>
+</body>
+</html>
