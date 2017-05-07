@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+<script>
+
+    window.onload=function () {
+
+        $("a:first").click(function(){
+           /* var request=new XMLHttpRequest();
+            var url=this.href+"?date="+new Date();
+            request.open("GET",url);
+            request.send(null);
+            request.onreadystatechange=function () {
+                if(request.readyState==4 && (request.status==200||request.status==304))
+              alert(request.responseText);
+            };*/
+            $("#detail").load(this.href,{'time':new Date()});
+            return false;
+        });
+        $("a:eq(1)").click(function(){
+            /*var request=new XMLHttpRequest();
+            var url=this.href+"?date="+new Date();
+            request.open("GET",url);
+            request.send(null);
+            request.onreadystatechange=function () {
+                if(request.readyState==4 && (request.status==200||request.status==304))
+               $("#detail")jsonp.html(request.responseText);
+            };*/
+           var args={'time':new Date()};
+            $("#detail").load(this.href+" h1",args);
+            return false;
+        });
+        $("a:eq(2)").click(function(){
+            /*var request=new XMLHttpRequest();
+            var url=this.href+"?date="+new Date();
+            request.open("GET",url);
+            request.send(null);
+            request.onreadystatechange=function () {
+                if(request.readyState==4 && (request.status==200||request.status==304))
+                {
+                    var result=request.responseXML;
+
+                    var name=result.getElementsByTagName("name")[0].firstChild.nodeValue;
+                    var job=result.getElementsByTagName("job")[0].firstChild.nodeValue;
+                    /!*var $p1=$("<p>"+name+"</p>");
+                    var $p2=$("<p>"+job+"</p>");
+                    $("#detail").append($p1).append($p2);*!/
+                  $("#detail")jsonp.html("<p>"+name+"</p><p>"+job+"</p>");
+                }
+
+            };*/
+            $.post(this.href,function (data) {
+                var name=$(data).find("name").text();
+                alert(name);
+            });
+            return false;
+        });
+
+        $("a:eq(3)").click(function(){
+           /* var request=new XMLHttpRequest();
+            var url=this.href+"?date="+new Date();
+            request.open("GET",url);
+            request.send(null);
+            request.onreadystatechange=function () {
+                if(request.readyState==4 && (request.status==200||request.status==304))
+                {
+                    var result=request.responseText;
+                    var jsonobj=eval("("+result+")");
+                    alert(jsonobj.name);
+
+                }
+
+            };*/
+           $.getJSON(this.href,function (data) {
+               var name=data.name;
+               $("#detail").append(name);
+           });
+            return false;
+        });
+
+    };
+
+</script>
+<a href="ajax.txt">txt</a>
+<a href="Andy.html">html</a>
+<a href="Bob.xml">xml</a>
+<a href="Niko.json">json</a>
+<div id="detail" style="background: red;width:200px;height: 100px"></div>
+<form name="fm1">
+    <input type="text" name="usrname"/>
+    <span id="msg">该用户已存在</span>
+    <br/>
+    <input type="submit" value="submit"/>
+</form>
+<script>
+$(function () {
+    $(":input[name='usrname']").change(function () {
+        var val=$.trim($(this).val());
+        var url="${pageContext.request.contextPath}/validateusername";
+        var args={"username":val,"time":new Date()};
+        $.post(url,args,function (data) {
+            $("#msg").html(data);
+        });
+
+    });
+})
+</script>
+</body>
+</html>

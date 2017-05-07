@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+<script>
+    var jsonobj={
+        name:"Niko",
+        age:28,
+        location:{
+            country:"China",
+            province:"JiangSu"
+        },
+        gender:"boy"
+    };
+  //  alert(jsonobj.name);
+    var jsonstr="{name:'Niko',age:28}";
+    var str="alert('xxx')";
+    var test=eval("("+jsonstr+")").name;
+   // alert(test);
+    Array.prototype.fn=function () {
+        var tmp=[];
+        for(var i=0;i<this.length;i++){
+            for(var j=1;j<this.length;){
+                if(this[i]===this[j]){
+                    tmp.push(this.splice(j,1));
+
+                }
+                else{
+                    j++;
+                }
+            }
+        }
+        return tmp;
+    };
+
+    var arr=['a','b','c','a'];
+    alert(arr.fn());
+</script>
+</body>
+</html>

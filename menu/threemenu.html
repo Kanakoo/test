@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+
+    <script>
+        var country=["中国","美国","英国"];
+        var province=[["北京省","江苏省","湖北省"],["纽约","华盛顿"],["伦敦"]];
+        var city=[[["北京市"],["南京市","苏州市","扬州市"],["武汉市"]],[["n","y"],["h","s","d"]],[["l","d"]]];
+        var num1,num2;
+
+        $(function () {
+            for (var i = 0; i < country.length; i++)
+                $(".country").append("<option>" + country[i] + "</option>");
+
+            $(".country").change(function () {
+                $(".province").children().not(":eq(0)").remove();
+                num1 = $(this).children("option:selected").index();
+                var selectprovince = province[num1 - 1];
+                for (var j = 0; j < selectprovince.length; j++)
+                    $(".province").append("<option>" + selectprovince[j] + "</option>");
+            })
+            $(".province").change(function () {
+                $(".city").children().not(":eq(0)").remove();
+                num2 = $(this).children("option:selected").index();
+                var selectcity = city[num1 - 1][num2 - 1];
+                for (var k = 0; k < selectcity.length; k++)
+                    $(".city").append("<option>" + selectcity[k] + "</option>");
+            });
+        })
+
+    </script>
+</head>
+<body>
+<select class="country">
+    <option>请选择</option>
+</select>
+<select class="province">
+    <option>请选择</option>
+</select>
+<select class="city">
+    <option>请选择</option>
+</select>
+
+</body>
+</html>

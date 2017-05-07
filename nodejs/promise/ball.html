@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+.ball{
+    width:40px;
+    height:40px;
+    border-radius: 20px;
+    margin:0;
+}
+.ball1{
+    background: #aa3e3d;
+}
+.ball2{
+    background: #6B9F1F;
+}
+.ball3{
+    background: #cc6600;
+}
+
+    </style>
+</head>
+<body>
+<div class="ball ball1"></div>
+<div class="ball ball2"></div>
+<div class="ball ball3"></div>
+<script src="node_modules/bluebird/js/browser/bluebird.js"></script>
+<script>
+    var ball1=document.querySelector(".ball1");
+    var ball2=document.getElementsByClassName("ball2")[0];
+    var ball3=document.getElementsByClassName("ball3")[0];
+    var Promise=window.Promise;
+    function promiseAnimate(ball,distance) {
+        return new Promise(function (resolve,reject) {
+            function _animate() {
+                var timer=setInterval(function () {
+                    var marginLeft=parseInt(document.defaultView.getComputedStyle(ball,null).marginLeft,10);
+                    if(marginLeft===distance){
+                        resolve();
+                        clearTimeout(timer);
+                    }
+                    else if(marginLeft<distance){
+                        marginLeft++;
+                    }
+                    else{
+                        marginLeft--;
+                    }
+                    ball.style.marginLeft=marginLeft+"px";
+                    // animate(ball,distance,cb);
+                },13)
+        }
+        _animate();
+    })
+    }
+    window.onload=promiseAnimate(ball1,100)
+            .then(function () {
+                return promiseAnimate(ball2,200)
+            })
+            .then(function () {
+                return promiseAnimate(ball3,300)
+            });
+    /*   function animate(ball,distance,cb) {
+        var timer=setInterval(function () {
+            var marginLeft=parseInt(document.defaultView.getComputedStyle(ball,null).marginLeft,10);
+            if(marginLeft===distance){
+                cb &&cb();
+                clearTimeout(timer);
+            }
+            else if(marginLeft<distance){
+                marginLeft++;
+            }
+            else{
+                marginLeft--;
+            }
+            ball.style.marginLeft=marginLeft+"px";
+           // animate(ball,distance,cb);
+        },13)
+    }
+    window.onload=animate(ball1,100,function () {
+        animate(ball2,200,function () {
+            animate(ball3,300,function () {
+                animate(ball3,150,function () {
+                    animate(ball2,150,function () {
+                        animate(ball1,150,function () {
+                            
+                        })
+                    })
+                })
+            })
+        })
+    })*/
+</script>
+</body>
+</html>

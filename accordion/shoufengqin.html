@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <style type="text/css">
+    .pics{
+        overflow: hidden;
+        border: 1px solid red;
+
+    }
+    .pic1{
+        background: url("../source/bg1.jpg");
+
+    }
+    .pic2{
+        background: url("../source/bg2.jpg");
+    }
+    .pics ul .pic3{
+        background: url("../source/bg3.jpg");
+        width:800px;
+    }
+    .pics ul li
+    {
+        float:left;
+        width:100px;
+        height:600px;
+        list-style-type:none;
+    }
+
+    a{
+        text-decoration: none;
+    }
+    .text{
+       color:white;
+        background: rgba(0,0,0,0.3);
+        width:100px;
+        height:600px;
+    }
+    .text p{
+        float:left;
+        color:white;
+        word-wrap: break-word;
+        letter-spacing:5px;
+        text-align: center;
+        padding:20px 10px 20px 20px;
+    }
+    .text .p1{
+        font-size:16px;
+        width:16px;
+
+    }
+    .text .p2{
+        font-size:14px;
+        width:14px;
+    }
+    </style>
+    <script>
+$(function () {
+  $(".pics ul li").mouseover(function(){
+     $(this).stop(true).animate({width:"800px"},1000).siblings().stop(true).animate({width:"100px"},1000);
+  });
+})
+
+    </script>
+</head>
+<body>
+<div class="pics">
+    <ul>
+        <li class="pic1">
+
+            <a href="#">
+                <div class="text">
+                    <p class="p1">diyigetupian</p>
+                    <p class="p2">shuoming</p>
+
+                </div>
+            </a>
+        </li>
+        <li class="pic2">
+            <a href="#">
+                <div class="text">
+                    <p class="p1">diyigetupian</p>
+                    <p class="p2">shuoming</p>
+                </div>
+            </a>
+        </li>
+        <li class="pic3">
+            <a href="#">
+                <div class="text">
+                    <p class="p1">diyigetupian</p>
+                    <p class="p2">shuoming</p>
+                </div>
+            </a>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

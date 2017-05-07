@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <style type="text/css">
+        #div1{
+            width:300px;
+            height:300px;
+            background: blue;
+            opacity: 0.3;
+            filter:alpha(opacity=30);
+            margin:0 auto;
+        }
+    #father{
+        border:1px solid red;
+        overflow:hidden;
+     }
+        .child{
+            width:300px;
+            height:300px;
+            background: #555;
+            float:left;
+            margin:10px;
+        }
+        #bottom{
+        position:absolute;
+        }
+
+    </style>
+    <script>
+/*
+        var timer=null;
+        var speed=0;
+        var start=0.3;
+var tmp=null;*/
+        $(function () {
+         //   alert($("#div1").css("opacity"));
+         //   console.dir(document.getElementById('div1'));
+            //$("#div1").hover(function(){Move(1);},function(){Move(0.3);});
+         //   $("#div1").click(function(){Move();});
+          /*  $("#div1").click(function(){
+                start+=0.1;
+                tmp=start.toFixed(1);
+
+                alert(tmp);
+            });*/
+
+          var mt=Math.max(document.body.scrollHeight,document.documentElement.scrollHeight);
+            var boxmt=document.getElementById("father").scrollHeight;
+
+            var oh=document.body.offsetHeight;
+
+           // alert(window.innerHeight);//可视区
+            //alert(document.documentElement.clientHeight);//可视区
+            alert(document.body.clientHeight);
+            alert($(window).height());//可视区
+            alert($(document).height());
+            //alert($("body").height());
+
+            document.getElementById("bottom").style.top=mt+"px";
+
+        });
+
+
+
+        function Move() {
+            /*clearInterval(timer);
+            timer=setInterval(function () {
+                if(target-start>0)
+                { speed=0.1;}
+                else
+                {speed=-0.1;}
+              if(Math.round(start*10)==target*10)
+                { clearTimeout(timer);}
+                else
+                {
+                    start+=speed;
+                    alert(Math.round(start*10));
+                    $("#div1").css("opacity",start);
+                }
+            },30);*/
+        }
+    </script>
+
+</head>
+<body>
+<!--<div id="div1">xxx</div>-->
+<div id="father">
+    <div class="child"></div>
+    <div class="child"></div>
+    <div class="child"></div>
+    <div class="child"></div>
+    <div class="child"></div>
+    <div class="child"></div>
+    <div class="child"></div>
+    <div class="child"></div>
+    <div class="child"></div>
+    <div class="child"></div>
+    <div class="child"></div>
+    <div class="child"></div>
+    <div class="child"></div>
+
+</div>
+<div id="bottom">xxxxxxxxxxxxxxxxxxxxxxxxxxxx</div>
+</body>
+</html>

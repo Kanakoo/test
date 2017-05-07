@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <style type="text/css">
+        body{
+            background: #000;
+
+        }
+    </style>
+    <script>
+        var minsize=5,maxsize=50;
+        var newon=500;
+        var color="#fff";
+        var flake=$("<div>").css({"position":"absolute","top":"-50px"}).html("❉");
+      $(function(){
+          var wid=$(window).width();
+          var hei=$(window).height();
+          setInterval(function(){
+              var flakesize=minsize+Math.random()*maxsize;
+              var startopacity=0.7+Math.random()*0.3;
+              var startleft=Math.random()*wid-flakesize;
+              var endtop=hei-flakesize-30;
+              var endleft=Math.random()*wid-flakesize;
+              var dropspeed=Math.random()*3000+5000;
+
+              flake.clone().appendTo("body").css({
+                  "left":startleft,
+                  "opacity":startopacity,
+                  "font-size":flakesize,
+                  "color":color
+              }).animate({"left":endleft,"top":endtop,"opacity":0.5},dropspeed/*,function(){$(this).remove()}*/).fadeOut(1000);
+
+          },newon);
+      })
+    </script>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,147 @@
+.showarea{
+    position:relative;
+    width:300px;
+    height:300px;
+    margin:0 auto;
+}
+.imgs{
+    position:relative;
+    width:300px;
+    height:300px;
+}
+.img{
+    width:300px;
+    height:300px;
+    position:absolute;
+}
+
+.btn1,.btnl{
+    width:30px;
+    height:50px;
+    position:absolute;
+    top:50%;
+    margin-top:-25px;
+    left:0%;
+    color:white;
+    background:rgba(0,0,0,0.5);
+    text-align: center;
+    line-height: 50px;
+    cursor: pointer;
+    display:none;
+    z-index: 999;
+}
+
+.btn2,.btnr{
+    width:30px;
+    height:50px;
+    position:absolute;
+    top:50%;
+    margin-top:-25px;
+    color:white;
+    background:rgba(0,0,0,0.5);
+    text-align: center;
+    line-height: 50px;
+    cursor: pointer;
+    left:100%;
+    margin-left: -30px;
+    display:block;
+    z-index: 999;
+}
+
+.tags{
+    height:20px;
+    width:66px;
+    position:absolute;
+    top:90%;
+    left:50%;
+    margin-left:-33px;
+}
+.tag{
+    width:20px;
+    height:20px;
+    background:rgba(0,0,0,0.3);
+    color:white;
+    float:left;
+    text-align: center;
+    line-height: 20px;
+    margin-right: 2px;
+    border-radius: 100%;
+    cursor:pointer;
+
+}
+.bg{
+    background-color:#89f;
+}
+.gundong{
+    position:relative;
+    width:900px;
+    height:300px;
+    top:50%;
+    margin:0 auto;
+    padding:0;
+overflow: hidden;
+    background: red;
+}
+.showarea2 img{
+    width:300px;
+    height:300px;
+
+
+
+}
+.showarea2{
+width:1800px;
+    margin:0;
+    padding:0;
+    left:0;
+    top:0;
+    position:absolute;
+
+}
+.showarea2 li{float:left;width:300px;height:300px;list-style-type: none;}
+
+#cardphoto{
+    width:83%;
+    height:400px;
+    margin:0 auto;
+    border:1px solid red;
+    position:relative;
+}
+#cardphoto img{
+    width:300px;
+    height:300px;
+}
+.pic{
+    position:absolute;
+    width:300px;
+    height:300px;
+    cursor:pointer;
+    border-radius: 20px;
+    overflow:hidden;
+}
+.pic1{
+    top:0px;
+    left:0px;
+    z-index:1;
+
+}
+.pic2{
+    top:50px;
+    left:200px;
+    z-index:2;
+}
+.pic3{
+    top:100px;
+    left:400px;
+    z-index:3;
+}
+.pic4{
+    top:50px;
+    left:600px;
+    z-index:2;
+}
+.pic5{
+    top:0px;
+    left:800px;
+    z-index:1;
+}

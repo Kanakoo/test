@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input type="file" id="filelist"/>
+<span id="progress"></span>
+<div id="output" style="background: #2D93CA"></div>
+<script>
+  var filelist=document.getElementById("filelist");
+  var output=document.getElementById("output");
+  var progress=document.getElementById("progress");
+  var reader=new FileReader();
+  var type="";
+  var html="";
+    filelist.addEventListener("change",function (e) {
+        var files=e.target.files;
+       // for(var i=0;i<files.length;i++)
+        //{
+            console.log(files[0].name+" "+files[0].type+" "+files[0].size);
+            console.log(window.URL.createObjectURL(filelist.files[0]));
+            if(/image/.test(files[0].type)){
+                reader.readAsDataURL(files[0]);
+                type="image";
+            } else{
+                reader.readAsText(files[0]);
+                type="text";
+            }
+            reader.onprogress=function (e) {
+                if(e.lengthComputable){
+                    progress.innerHTML=e.loaded+"/"+e.total;
+                }
+            };
+            reader.onload=function () {
+                switch(type){
+                    case "image":
+                        html="<img src=\""+window.URL.createObjectURL(filelist.files[0])+"\"/>";
+                        break;
+                    case "text":
+                        html=reader.result;
+                        break;
+                }
+                output.innerHTML=html;
+            };
+
+       // }
+
+
+    },false)
+</script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<style type="text/css">
+    .top{
+        width:100%;
+        height:50px;
+        position:absolute;
+        z-index: 1;
+        left:0;
+        top:0;
+        background:#333;
+
+    }
+
+    .imgs{
+        width:100%;
+        height:70px;
+        margin-top:60px;
+        display: none;
+
+    }
+    .imgitem{
+        width:180px;
+        height:100px;
+        margin-left: 5px;
+        cursor:pointer;
+
+    }
+    .top a{
+        text-decoration: none;
+        color:white;
+
+        background: #2D93CA;
+        float:left;
+        width:80px;
+        height:50px;
+        text-align: center;
+        line-height: 50px;
+        margin-left: 10px;
+
+    }
+</style>
+
+    <script>
+        function getCookie(name)
+        {
+            var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+            if(arr=document.cookie.match(reg)) {
+                console.log(document.cookie);
+                console.log(arr);
+                return unescape(arr[2]);
+
+            }
+            else
+                return null;
+        }
+        function delCookie(name)
+        {
+            var exp = new Date();
+            exp.setTime(exp.getTime() - 1);
+            var cval=getCookie(name);
+            if(cval!=null)
+                document.cookie= name + "="+cval+";expires="+exp.toGMTString();
+        }
+        getCookie('bgpic');
+        $(function(){
+            $("#changebg").click(function(){
+                $(".imgs").slideDown();
+            });
+            $("#up").click(function(){
+                $(".imgs").slideUp();
+            });
+
+            if($.cookie("bgpic")==""||$.cookie("bgpic")==null)
+                $("body").css({"background":"url('bg1.jpg')","background-size":"cover"});
+            else
+                $("body").css({"background":"url('"+$.cookie('bgpic')+"')","background-size":"cover"});
+            $(".imgitem").click(function(){
+
+                var src=$(this).attr("src");
+                $("body").css({"background":"url('"+src+"')","background-size":"cover"});
+                $.cookie("bgpic",src,{expires:7});
+            });
+
+        });
+    </script>
+
+
+</head>
+<body>
+<div class="top"><a href="#" id="changebg">换肤</a><a href="#" id="up">收起</a></div>
+<div class="imgs"><img src="../source/bg1.jpg" class="imgitem"><img src="../source/bg2.jpg" class="imgitem"><img src="../source/bg3.jpg" class="imgitem"></div>
+</body>
+</html>

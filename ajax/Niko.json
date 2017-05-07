@@ -1,0 +1,9 @@
+{
+  "name":"Niko",
+  "age":28,
+  "location":{
+    "country":"China",
+    "province":"JiangSu"
+  },
+  "gender":"boy"
+}

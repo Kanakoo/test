@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <style type="text/css">
+        .top{
+            width:100%;
+            height:50px;
+            position:fixed;
+            z-index:1;
+            left:0;
+            top:0;
+            background:#333;
+
+        }
+        #menu{
+            position:absolute;
+            top:60px;
+            left:0;
+            width:150px;
+            height:100%;
+
+        }
+        .option{
+
+        }
+   #menu>li>a{
+       text-decoration: none;
+       color:#fff;
+       width:140px;
+       height:50px;
+       background: #aa5555;
+       display:block;
+       line-height: 50px;
+       border-left:solid 10px #aa3e3d;
+
+   }
+   .option>li>a{
+       text-decoration: none;
+       color:#fff;
+       width:150px;
+       height:50px;
+       display:block;
+       line-height: 50px;
+       display:block;
+       background: #aa7777;
+       text-align: center;
+       border-bottom: 1px solid #eee;
+   }
+   body{
+       background: #FD9999;
+   }
+
+   ul{
+       list-style-type:none;
+       margin:0;
+       padding: 0;
+   }
+    </style>
+    <script>
+    $(function(){
+        $(".option").hide();
+        $("#menu>li>a").click(function() {
+            if($(this).next().is(":hidden"))
+                $(this).next().slideDown();
+            else
+                $(this).next().slideUp();
+        }
+        );
+    });
+    </script>
+</head>
+<body>
+<div class="top"></div>
+<ul id="menu">
+    <li><a href="#">江苏省</a>
+    <ul class="option">
+        <li><a href="#">扬州市</a></li>
+        <li><a href="#">南京市</a></li>
+        <li><a href="#">盐城市</a></li>
+        <li><a href="#">徐州市</a></li>
+    </ul>
+    </li>
+    <li><a href="#">浙江省</a>
+        <ul class="option">
+            <li><a href="#">杭州市</a></li>
+            <li><a href="#">温州市</a></li>
+
+        </ul>
+    </li>
+    <li><a href="#">湖北省</a>
+        <ul class="option">
+            <li><a href="#">武汉市</a></li>
+        </ul>
+    </li>
+    <li><a href="#">广东省</a>
+        <ul class="option">
+            <li><a href="#">广州市</a></li>
+
+        </ul>
+    </li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="../source/jquery.rotate.min.js"></script>
+    <style type="text/css">
+       #show{
+           margin:0 auto;
+
+           width:355px;
+           height:355px;
+            position:relative;
+           border:1px solid red;
+       }
+        #turn{
+            width:355px;
+            height:355px;
+            margin:0 auto
+        }
+        #tick{
+            width:170px;
+            height:170px;
+            position:absolute;
+            top:90px;
+            left:90px;
+            cursor:pointer;
+
+        }
+
+    </style>
+
+
+</head>
+<body>
+
+<div id="show">
+    <div id="turn"> <img src="../source/test.png">
+
+    </div>
+    <div id="tick">   <img src="../source/tick.png"></div>
+
+</div>
+</body>
+<script type="text/javascript">
+$(function(){
+
+    $("#tick").click(function(){
+        var deg=Math.random()*360;
+        $(this).rotate({
+            duration:3000,
+            angel:0,
+            animateTo:deg+1440,
+            callback:function(){
+                if(deg>0&&deg<=60){alert("purple");}
+                else if(deg>60&&deg<=120){alert("red");}
+                else if(deg>120&&deg<=180){alert("blue");}
+                else if(deg>180&&deg<=240){alert("yellow");}
+                else if(deg>240&&deg<=300){alert("black");}
+                else {alert("green");}
+            }
+
+        })
+    });
+})
+</script>
+</html>

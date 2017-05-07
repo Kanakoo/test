@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>双飞翼布局</title>
+</head>
+<style>
+    *{
+        margin:0;
+        padding:0;
+    }
+
+    #main{
+        width:100%;
+        height:800px;
+        background:#cc6600;
+        float:left;
+    }
+    #div1{
+        width:150px;
+        height:800px;
+        background: #009f95;
+        float:left;
+        margin-left:-100%;
+
+    }
+    #div2{
+        width:190px;
+        height:800px;
+        background:#8899ff;
+        float:left;
+        margin-left:-190px;
+
+
+    }
+    #mainin{
+        margin:0 190px 0 150px;
+    }
+    #chatmain{
+        width:300px;
+        height:500px;
+        border:1px solid #888;
+        position:relative;
+
+    }
+    .content-outer{
+        border:1px solid red;
+        overflow: hidden;
+        margin:10px;
+
+    }
+
+    #content-inner{
+        background:#eee;
+        border-radius:10px;
+        position: relative;
+        word-break: break-all;
+        margin-left:50px;
+        float:left;
+
+    }
+    #tag{
+        position:absolute;
+        left:-16px;
+        top:20%;
+        border:8px solid transparent;
+        border-right-color: #eee;
+    }
+    #time{
+        color:#ccc;
+        font-family: Helvetica, arial, sans-serif;
+        float:right;
+    }
+    #img{
+        width:30px;
+        height:30px;
+        border-radius: 50%;
+        float:left;
+        position: relative;
+        top:30px;
+    }
+    @keyframes myfirst
+    {
+        from {top:50%;}
+        to {top:10px;}
+       /* 0%   {bottom:0;}
+        25%  {bottom:20%;}
+        50%  {bottom:50%;}
+        100% {top:10px;}*/
+    }
+    .blur{
+        background: url("../source/pic2.jpg") no-repeat center;
+        background-size:100% 100%;
+        width:500px;
+        height:500px;
+        position:relative;
+        filter: blur(5px) sepia(0.3);
+        float:right;
+    }
+    .test{
+        width:200px;
+        height:200px;
+        position:absolute;
+    }
+
+</style>
+<body>
+    <div id="main">
+        <div id="mainin">
+            <div style="border:1px solid red">
+                xxx
+            </div>
+            <ul>
+            </ul>
+            <button>xxx</button><button>yyy</button>
+            <input type="week">
+
+            <div id="chatmain">
+             <div class="content-outer">
+                    <div id="time"></div>
+                  <img src="../source/pic1.jpg" id="img"/>
+                    <div id="content-inner">
+                        <div id="tag"></div>
+                    没你不行大家好法克面包，名单包括飞机不打算明年分别是，就接口还不睡觉待笔试， 在接电话方便快捷
+                    </div>
+                </div>
+                <div class="content-outer">xxx</div>
+            </div>
+            <div class="blur">
+            <img src="../source/pic2.jpg" width="200px" height="200px">
+            <img src="../source/pic2.jpg" class="test">
+            </div>
+
+        </div>
+
+    </div>
+    <div id="div1" name="div11">666</div>
+    <div id="div2">777</div>
+<script>
+    var time=document.getElementById("time");
+    var timetext=document.createTextNode(new Date().toLocaleString());
+    time.appendChild(timetext);
+    var ul=document.getElementsByTagName("ul")[0];
+    for(var i=0;i<5;i++){
+         var li = document.createElement("li");
+         var content = document.createTextNode(i);
+         li.appendChild(content);
+         ul.appendChild(li);
+     }
+  /* var li=document.createElement("li");
+    var content = document.createTextNode("<span>yy<strong>xx</strong>zz</span>");
+
+   li.appendChild(content);
+    document.body.appendChild(li);
+    li.innerHTML="xx";
+    li.firstChild.nodeValue="test";
+    li.firstChild.appendData("new");
+    li.innerText="<span>yy<strong>xx</strong>zz</span>";
+    li.setAttribute("data-mydata","myadd");
+    alert(li.dataset.mydata);
+    li.insertAdjacentHTML("afterbegin","<span>afterbegin</span>");
+    li.scrollIntoView();
+   */ //alert(document.body.childNodes[3].firstChild.nodeValue);
+    //var div=document.createElement("<div></div>");
+    //document.body.appendChild(div);
+    //ul.replaceChild(li,ul.children[0]);
+    //alert(document.compatMode);
+/* 总结 动态创建长度为n+1 静态创建长度为2n+1 第一个都是空文本节点，孤儿节点可以替换，
+替换的时候替换的元素会消失,不能动态创建写标签内容*/
+
+   for(var j=0;j<5;j++){
+        var temp=ul.removeChild(ul.lastChild);
+        ul.insertBefore(temp,ul.childNodes[j]);//children[j]也可以
+
+    }
+alert(ul.childNodes[5]);
+</script>
+</body>
+</html>

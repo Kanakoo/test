@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #wrapper {
+
+            background: #bbaa33;
+            display: flex;
+        }
+
+        #div1 {
+            flex: 1;
+            height: 100px;
+            background: #cc6600;
+        }
+
+        #div2 {
+            flex: 1;
+            height: 100px;
+            background: #cc6666;
+        }
+
+        .clearfloat:after {
+            display: block;
+            clear: both;
+            content: "";
+            visibility: hidden;
+            height: 0
+        }
+
+        .clearfloat {
+            zoom: 1
+        }
+
+        .box {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            background: #999;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content:flex-end;
+            align-items: flex-end;
+
+
+        }
+
+        .item {
+            width: 20px;
+            height: 20px;
+            border-radius: 13px;
+            background: #aaa;
+            display: inline-block;
+            border: 3px solid #888;
+            border-style: outset;
+        }
+
+
+    </style>
+</head>
+
+<!--<iframe src="snow.html" width="600px" height="600px">
+</iframe>-->
+<body>
+<div id="wrapper">
+    <div id="div1"></div>
+    xxx
+    <div id="div2"></div>
+
+</div>
+<div class="box">
+    <span class="item"></span>
+    <span class="item"></span>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<style>
+*{margin:0;padding: 0}
+#head{
+    width:95%;
+    height:50px;
+    right:5%;
+    position:fixed;
+    z-index:1;
+    background: #2D93CA;
+
+
+}
+#main{
+    width:95%;
+    height:100%;
+    background: #92B8B1;
+    position:absolute;
+    top:50px;
+    right:5%;
+}
+    #side{
+        width:5%;
+        height:100%;
+        position:fixed;
+        z-index:2;
+        background:#eff;
+        border-left: 0.8px solid grey;
+        right:0;
+        top:0;
+    }
+    #side li{
+        list-style-type: none;
+        margin:50px auto;
+        border:1px  solid red;
+        text-align: center;
+        cursor: pointer;
+    }
+    #out{
+
+        width:0px;
+        height:100%;
+        position: fixed;
+        z-index:1;
+        background:#eee;
+        border-left: 0.8px solid grey;
+        right:5%;
+        top:0;
+    }
+    #down{
+        display: none;
+        width:500px;
+        height:400px;
+        position: absolute;
+        top:80px;
+        left:50%;
+        margin-left:-250px;
+        background: #aa5555;
+    }
+#out li{
+
+    list-style-type: none;
+    margin:50px auto;
+    border:1px  solid red;
+    text-align: center;
+    cursor: pointer;
+}
+    #sidebox{
+        position:fixed;
+        z-index:1;
+        left:-100px;
+        top:100px;
+        background: #cc6600;
+        width:100px;
+        height:200px;
+    }
+    #click{
+        position:absolute;
+        right:-25px;
+        width:25px;
+        height:50px;
+        background: #bbaa33;
+        cursor:pointer;
+    }
+    .test{
+        width:50px;
+        height:50px;
+        float:right;
+        background:#cc6600;
+    }
+</style>
+<body>
+<div id="head">
+
+    <input type="search"/>
+</div>
+
+<ul id="side">
+    <li>111</li>
+    <li>222</li>
+</ul>
+<ul id="out">
+    <li>aaa</li>
+    <li>bbb</li>
+</ul>
+<div id="main">
+    <div class="test"></div>
+    <div id="down"></div>
+    <div id="sidebox">
+        <div id="click"></div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $("#side li:eq(1)").click(function () {
+            if($("#out").width()==0){
+                $("#out").animate({width:'10%'},500);
+                $("#head").animate({right:'15%'},500);
+                $("#main").animate({right:'15%'},500);
+            }
+            else{
+                $("#out").animate({width:"0px"},500);
+              $("#head").animate({right:'5%'},500);
+               $("#main").animate({right:'5%'},500);
+            }
+        });
+        $("#side li:eq(0)").click(function () {
+            if($("#down").is(":hidden")){
+                $("#down").slideDown();
+            }
+            else{
+                $("#down").slideUp();
+            }
+        });
+        $("#click").click(function () {
+            if($("#sidebox").position().left!=0)
+            {$("#sidebox").animate({left:'0px'},500);}
+            else
+            {$("#sidebox").animate({left:'-100px'},500);}
+        });
+        var div1 = document.createElement("div");
+         div1.style.cssText='width:300px;height:100px;background:khaki';
+        $("#main")[0].appendChild(div1);
+    });
+
+</script>
+</body>
+</html>
