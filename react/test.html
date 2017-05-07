@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/react/15.4.2/react.min.js"></script>
+    <script src="//cdn.bootcss.com/react/15.4.2/react-dom.min.js"></script>
+    <script src="//cdn.bootcss.com/babel-core/5.8.34/browser-polyfill.min.js"></script>
+    <script src="//cdn.bootcss.com/babel-core/5.8.34/browser.min.js"></script>
+
+</head>
+<body>
+<div id="app">
+</div>
+<!--路径问题-->
+
+
+<script type="text/babel">
+
+    var TodoList = React.createClass({
+        propTypes: {
+            list: React.PropTypes.array
+        },
+        getDefaultProps: function() {
+            return {
+                list: [],
+                test:'test'
+
+            };
+        },
+        getInitialState: function() {
+            return {list: []};
+        },
+        componentWillReceiveProps: function (nextProps) {
+            if (nextProps.list !== this.props.list) {
+                this.setState({list: nextProps.list});
+            }
+        },
+        componentWillMount() {
+            this.setState({list: this.props.list});
+        },
+        componentDidMount: function () {
+            // this.refs.todo._add()
+        },
+        _remove: function (index) {
+            var list = this.state.list;
+            list.splice(index, 1);
+            this.setState({list: list});
+        },
+        _add: function (e) {
+            var input = this.refs.input;
+            if (input.value.trim() == '') {
+                alert('value is empty!');
+            } else {
+                var list = this.state.list;
+                list.push({text:input.value});
+                this.setState({list: list});
+            }
+        },
+        _clear: function (e) {
+//            var list = this.state.list;
+//            list.splice(0, list.length);
+            this.setState({list: []});
+        },
+        _select:function (i) {
+            var list = this.state.list;//.slice();
+            list[i].selected = !list[i].selected;
+            this.setState({list: list});
+        },
+        _clearSelected:function () {
+            var list = this.state.list;//.slice();
+            list = list.filter(x => !x.selected);
+            console.info(list);
+            this.setState({list: list});
+        },
+        test:function(){alert(this.props.test);},
+        render: function () {
+
+
+            var list = this.state.list;
+            var self = this;
+            return (
+                    <div>
+                        <button onClick={this.test}>test</button>
+                        <input type="search" onChange={(e)=>{
+                            var text=e.target.value.trim();
+                            list.map(function(x){
+                                x.text.indexOf(text)>=0 ? Object.assign(x, {hidden: false}): Object.assign(x, {hidden: true})
+                            });
+                            this.setState({
+                                list:list
+                            });
+                        }}/>
+                        {
+//                        list.map((x, i) =>
+//                            <Todo ref="todo" content={x} key={i/*x?*/} onRemove={() => {this._remove(i)}}/>
+//                        )
+
+                            list.map(function (x, i) {
+                                return <div><Todo  content={x.text}
+                                                   key={i/*x?*/ }
+                                                   onSelect={()=>self._select(i)}
+                                                   selected={x.selected}
+                                                   hidden={x.hidden}
+                                />
+                                </div>
+                            })
+                        }
+                        <input ref="input" />
+                        <button onClick={this._add}>Add</button>
+                        <button onClick={this._clear}>ClearAll</button>
+                        <button onClick={this._clearSelected}>ClearSelected</button>
+                    </div>
+            )
+        }
+    });
+
+    var Todo = React.createClass({
+        propTypes: {
+            content: React.PropTypes.string.isRequired,
+            selected:React.PropTypes.bool,
+            onSelect:React.PropTypes.func
+        },
+        getDefaultProps: function() {
+            return {
+                content: 'todo what?',
+                selected:false
+            };
+        },
+        getInitialState: function() {
+            return {editing: false,selected:false,hidden:false};
+        },
+        componentWillMount() {
+            this.setState({content: this.props.content});
+
+        },
+        componentWillReceiveProps: function (nextProps) {
+            if (nextProps.content != this.props.content) {
+                this.setState({content: nextProps.content});
+            }
+        },
+        _onUpdate: function (e) {
+            this.setState({editing: true});
+        },
+        _cancelEditing: function (e) {
+            this.setState({editing: false});
+        },
+        _onSave: function (e) {
+            var input = this.refs.input;
+            if (input.value.trim() == '') {
+                alert('value is empty!');
+            } else {
+                this.setState({
+                    editing: false,
+                    content: input.value
+                });
+            }
+        },
+
+        render: function () {
+            var editing = this.state.editing;
+            if (this.props.hidden) {
+                return null;
+            }
+            return (
+                    <div style={{display:"inline-block"}}>
+
+                        {!editing ? <span><input type="checkbox" checked={this.props.selected} onChange={this.props.onSelect}/>{this.state.content}</span> : <input type="text" ref="input" defaultValue={this.state.content}/>}
+                        {this.props.onRemove && <button onClick={this.props.onRemove}>Delete</button>}
+                        <button onClick={!editing?this._onUpdate:this._onSave}>{!editing?'Update':'Save'}</button>
+                        {editing && <button onClick={this._cancelEditing}>{'Cancel'}</button>}
+                    </div>
+            )
+        }
+    });
+
+    ReactDOM.render(
+            <TodoList list={[{text:"abc",selected:false}, {text:"ABC",selected:false}]} />,
+            document.getElementById('app')
+    );
+</script>
+
+</body>
+</html>

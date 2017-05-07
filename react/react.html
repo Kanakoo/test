@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/react/15.4.2/react.min.js"></script>
+    <script src="//cdn.bootcss.com/react/15.4.2/react-dom.min.js"></script>
+    <script src="//cdn.bootcss.com/babel-core/5.8.34/browser-polyfill.min.js"></script>
+    <script src="//cdn.bootcss.com/babel-core/5.8.34/browser.min.js"></script>
+</head>
+<body>
+<div id="div1"></div>
+<script type="text/babel">
+    var div1=document.getElementById("div1");
+    var div3=<p>bbb</p>;//可做第一个参数
+    //组件
+    class Comp extends React.Component{
+        constructor(...args){
+            super(...args);
+            this.state={val:"",test:0}
+        }
+        fn(ev){
+        this.setState({
+            val:ev.target.value,
+            test:1
+        });
+
+    }
+        //必须要有render方法
+        render(){
+            //Change大写
+            return <div>{this.props.name}{this.props.age}
+            <input type="text" onChange={this.fn.bind(this)}/>
+                <p>{this.state.val+" "+this.state.test}</p>
+            </div>
+        }
+    }
+
+    var ShowHide=React.createClass(
+            {
+                getDefaultProps: function() {
+
+                },
+                getInitialState:function () {
+                  return{
+                      display:true
+                  }
+                },
+                shouldComponentUpdate: function () {
+                    return true;
+                },
+               render:function(){
+                    var display=this.state.display;
+                   var self=this;
+                   /* var a=null;
+                   if(display)
+                       a=<Greeting name="aaa"/>;*/
+                   return <div>
+
+                       {display &&  <Greeting name="aaa"/>}
+                       {/*a*/}
+                    <button onClick={function(){self.setState({display: true})}}>show</button>
+                   <button onClick={e=>this.setState({display:false})}>hide</button>
+                   </div>
+               }
+            }
+    );
+    var Greeting=React.createClass({
+        propTypes: {
+            name: React.PropTypes.string
+        },
+
+        getInitialState:function () {
+            return{i:0}
+        },
+        getDefaultProps:function () {
+            return{name:"xxx"}
+        },
+        shouldComponentUpdate: function () {
+            return true;
+        },
+        componentWillReceiveProps:function (newProps) {
+            console.log("数据更新"+newProps.name);
+        },
+        fn:function () {
+          this.setState({i:this.state.i+1});
+        },
+        render:function () {
+            var self=this;
+            return(
+                    <div>
+                    <p>{this.props.name}{this.state.i}</p>
+                    <button onClick={this.fn/*function(){self.setState({i:self.state.i+1});}*/}>update</button>
+                    </div>
+            )
+        }
+    });
+
+     ReactDOM.render(
+             <div><ShowHide/><Comp name="blue" age="20"/><Greeting/>
+             </div>,div1
+     );
+
+
+</script>
+
+</body>
+</html>
