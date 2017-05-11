@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <style>
         img {
             display: block;
@@ -33,7 +34,7 @@
     function lazyload() { //监听页面滚动事件
         var seeHeight = document.documentElement.clientHeight; //可见区域高度
         var scrollTop = document.documentElement.scrollTop || document.body.scrollTop; //滚动条距离顶部高度
-        console.log(seeHeight+" "+scrollTop+" "+img[2].offsetTop);
+        console.log(img[2].offsetTop+" "+$("img:eq(2)").offset().top+" "+$("img:eq(2)").position().top+" "+seeHeight+" "+scrollTop);
         for (var i = n; i < num; i++) {
             if (img[i].offsetTop < seeHeight + scrollTop) {
                 if (img[i].getAttribute("src") == "") {

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body{
+            padding:0;
+            margin:0;
+            background:#aaa;
+        }
+        #canvas{
+            display:block;
+            margin:0 auto;
+            background:white;
+        }
+        #menu{
+            margin:10px auto;
+            width:80%;
+            height:100px;
+            border:1px solid blue;
+            background:white;
+        }
+        #menu span{
+            display: inline-block;
+            vertical-align: middle;
+            border:2px solid grey;
+            margin:0;
+            padding:0;
+            border-radius: 20%;
+        }
+        .color,.bold,.choose{
+            width:20px;
+            height:20px;
+            text-align: center;
+            cursor:pointer;
+
+        }
+        #yellow{
+            background: yellow;
+        }
+        #green{
+            background: green;
+        }
+        #red{
+            background: red;
+        }
+        #blue{
+            background: blue;
+        }
+        #cyan{
+            background: cyan;
+        }
+        #purple{
+            background: purple;
+        }
+        #orange{
+            background: orange;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas">
+
+</canvas>
+<div id="menu">
+    <span class="color" id="yellow"></span>
+    <span class="color" id="green"></span>
+    <span class="color" id="red"></span>
+    <span class="color" id="blue"></span>
+    <span class="color" id="cyan"></span>
+    <span class="color" id="purple"></span>
+    <span class="color" id="orange"></span>
+    <br/>
+    <span class="bold" id="slim">▎</span>
+    <span class="bold" id="middle">▋</span>
+    <span class="bold" id="thick">▉</span>
+    <span class="choose" id="random">～</span>
+    <span class="choose" id="line">─</span>
+    <span class="choose" id="circle">○</span>
+    <span class="choose" id="fillcircle">●</span>
+    <span class="choose" id="rect">□</span>
+    <span class="choose" id="fillrect">■</span>
+    <span class="choose" id="eraser" style="background: url('http://ok47spofd.bkt.clouddn.com/eraser.png') no-repeat"></span>
+    <span class="choose" id="clear">×</span>
+    <input type="file" id="file"/>
+</div>
+<script>
+    var canvas=document.getElementById('canvas');
+    var clientW=window.innerWidth||document.documentElement.clientWidth||document.body.clientWidth;
+    var clientH=window.innerHeight||document.documentElement.clientHeight||document.body.clientHeight;
+    canvas.width=clientW*0.8;
+    canvas.height=clientH*0.8;
+    var ctx=canvas.getContext('2d');
+    var color='black';
+    var bold='1';
+    document.getElementById('menu').addEventListener('click',function (e) {
+        switch(e.target.id){
+            case 'yellow':color = 'yellow';break;
+            case 'green':color = 'green';break;
+            case 'red':color = 'red';break;
+            case 'blue':color = 'blue';break;
+            case 'cyan':color = 'cyan';break;
+            case 'purple':color = 'purple';break;
+            case 'orange':color = 'orange';break;
+            case 'slim':bold = '1';break;
+            case 'middle':bold = '5';break;
+            case 'thick':bold = '10';break;
+            case 'random':drawRandom();break;
+            case 'line':drawLine();break;
+            case 'circle':drawCircle();break;
+            case 'fillcircle':drawFillCircle();break;
+            case 'rect':drawRect();break;
+            case 'fillrect':drawFillRect();break;
+            case 'eraser':eraser();break;
+            case 'clear':clear();break;
+        }
+    },false);
+    document.getElementById('file').onchange=function () {
+        var imgObj=document.createElement('img');
+        //var url=window.URL.createObjectURL(document.getElementById('file').files[0]);
+        var reader = new FileReader();
+        reader.readAsDataURL(document.getElementById('file').files[0]);
+        reader.onload=function () {
+            imgObj.src=this.result;
+           /* imgObj.style.width='300px';
+            imgObj.style.height='300px';*/
+            imgObj.onload = function () {
+                var imgW=imgObj.width;
+                var imgH=imgObj.height;
+                var percent=imgH/imgW;
+                var showImgW=canvas.width*0.5;
+                var showImgH=showImgW*percent;
+                ctx.drawImage(imgObj,(canvas.width-showImgW)/2,(canvas.height-showImgH)/2,showImgW,showImgH);
+            }
+        }
+    };
+    function drawRandom() {
+        canvas.onmousedown = function (e) {
+            ctx.beginPath();
+            ctx.moveTo(e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop);
+            canvas.onmousemove = function (e) {
+                ctx.lineTo(e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop);
+                //ctx.closePath();
+                ctx.strokeStyle = color;
+                ctx.lineWidth=bold;
+                ctx.stroke();
+            }
+
+        };
+        canvas.onmouseup = function () {
+            this.onmousemove = null;
+        }
+    }
+    function drawLine(){
+        var startx,starty=null;
+        canvas.onmousedown = function (e) {
+            startx=e.pageX - canvas.offsetLeft;
+            starty=e.pageY - canvas.offsetTop;
+            ctx.beginPath();
+            ctx.moveTo(startx,starty );
+            ctx.strokeStyle = color;
+            ctx.lineWidth=bold;
+
+        };
+
+        canvas.onmouseup = function (e) {
+            ctx.lineTo(e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop);
+            ctx.stroke();
+            this.onmousemove = null;
+        }
+
+    }
+    function drawRect(){
+        var startx,starty,endx,endy=null;
+        canvas.onmousedown = function (e) {
+            startx=e.pageX - canvas.offsetLeft;
+            starty=e.pageY - canvas.offsetTop;
+            ctx.beginPath();
+            };
+        canvas.onmouseup = function (e) {
+            endx=e.pageX - canvas.offsetLeft;
+            endy=e.pageY - canvas.offsetTop;
+            ctx.strokeStyle=color;
+            ctx.lineWidth=bold;
+            ctx.strokeRect(startx,starty,endx-startx,endy-starty);
+            this.onmousemove = null;
+        };
+    }
+    function drawFillRect(){
+        var startx,starty,endx,endy=null;
+        canvas.onmousedown = function (e) {
+            startx=e.pageX - canvas.offsetLeft;
+            starty=e.pageY - canvas.offsetTop;
+            ctx.beginPath();
+        };
+        canvas.onmouseup = function (e) {
+            endx=e.pageX - canvas.offsetLeft;
+            endy=e.pageY - canvas.offsetTop;
+            ctx.fillStyle=color;
+            ctx.fillRect(startx,starty,endx-startx,endy-starty);
+            this.onmousemove = null;
+        };
+    }
+    function drawCircle(){
+        var startx,starty,endx,endy=null;
+        canvas.onmousedown = function (e) {
+            startx=e.pageX - canvas.offsetLeft;
+            starty=e.pageY - canvas.offsetTop;
+        };
+        canvas.onmouseup = function (e) {
+            endx=e.pageX - canvas.offsetLeft;
+            endy=e.pageY - canvas.offsetTop;
+            ctx.strokeStyle=color;
+            ctx.lineWidth=bold;
+            var radius=(endx-startx)/2;
+            var x=startx+radius,y=starty+radius;
+           // ctx.moveTo(startx+radius,starty);
+            ctx.beginPath();
+            ctx.arc(x,y,radius,0,2*Math.PI,false);
+            ctx.stroke();
+            this.onmousemove = null;
+        };
+    }
+    function drawFillCircle(){
+        var startx,starty,endx,endy=null;
+        canvas.onmousedown = function (e) {
+            startx=e.pageX - canvas.offsetLeft;
+            starty=e.pageY - canvas.offsetTop;
+            ctx.beginPath();
+        };
+        canvas.onmouseup = function (e) {
+            endx=e.pageX - canvas.offsetLeft;
+            endy=e.pageY - canvas.offsetTop;
+            ctx.fillStyle=color;
+            var radius=(endx-startx)/2;
+            var x=startx+radius,y=starty+radius;
+            ctx.arc(x,y,radius,0,2*Math.PI,false);
+            ctx.fill();
+            this.onmousemove = null;
+        };
+    }
+    function eraser(){
+        color='white';
+        bold='10';
+        drawRandom();
+    }
+    function clear(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+    }
+</script>
+</body>
+</html>
