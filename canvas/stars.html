@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>star</title>
+</head>
+<body>
+<canvas id="canvas" width="800" height="600"></canvas>
+<script>
+    var canvas=document.getElementById('canvas');
+    var ctx=canvas.getContext('2d');
+    var w=canvas.width;
+    var h=canvas.height;
+    var starImg=new Image();
+    starImg.src='http://ok47spofd.bkt.clouddn.com/star.png';
+    var starNum=60;
+    var stars=[];
+    var deltaTime=0;
+    var lastTime=0;
+    window.requestAnimFrame = (function() {
+        return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+                function( /* function FrameRequestCallback */ callback, /* DOMElement Element */ element) {
+                    return window.setTimeout(callback, 1000 / 60);
+                };
+    })();
+
+    function gameLoop() {
+        //window.requestAnimationFrame(gameLoop);
+        setTimeout(gameLoop,80);
+        var now=new Date();
+        deltaTime=now-lastTime;
+        lastTime=now;
+        ctx.fillStyle='#393550';
+        ctx.fillRect(0,0,w,h);
+        for(var i=0;i<starNum;i++){
+            stars[i].update();
+            stars[i].draw();
+        }
+    }
+    function starObj(){
+        this.x=Math.floor(Math.random()*w);
+        this.y=Math.floor(Math.random()*h);
+        this.pos=Math.ceil(Math.random()*4);
+        this.size=0;
+        this.timer=0;
+    }
+    starObj.prototype.update=function () {
+
+        this.size=Math.random()*50;
+        this.timer+=deltaTime;
+        if(this.timer>80){
+            //this.pos=Math.ceil(Math.random()*5)*97;
+            this.pos++;
+            this.pos%=5;
+        }
+    };
+    starObj.prototype.draw=function () {
+        //ctx.drawImage(img,ix,iy,iw,ih,cx,cy,cw,ch);
+        ctx.drawImage(starImg,this.pos*97,0,97,97,this.x,this.y,this.size,this.size);
+    };
+    function start(){
+        for(var i=0;i<starNum;i++){
+            var obj=new starObj();
+            stars.push(obj);
+        }
+        lastTime=new Date();
+        gameLoop();
+    }
+    window.onload=start;
+</script>
+</body>
+</html>

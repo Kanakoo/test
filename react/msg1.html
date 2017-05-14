@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="//cdn.bootcss.com/react/15.4.2/react.min.js"></script>
+    <script src="//cdn.bootcss.com/react/15.4.2/react-dom.min.js"></script>
+    <script src="//cdn.bootcss.com/babel-core/5.8.34/browser-polyfill.min.js"></script>
+    <script src="//cdn.bootcss.com/babel-core/5.8.34/browser.min.js"></script>
+</head>
+<body>
+<div id="div1"></div>
+<script type="text/babel">
+    var div1=document.getElementById('div1');
+    class Child extends React.Component{
+        constructor(...args){
+            super(...args)
+            this.childParam='childParam'
+        }
+
+        render(){
+            this.props.childFn(this.childParam);
+            return<div>{this.props.childProp}</div>
+        }
+    }
+    Child.defaultProps={
+        childProp:''
+    }
+    Child.propTypes={
+        childFn: React.PropTypes.func
+    }
+    class Parent extends React.Component{
+        constructor(...args){
+            super(...args)
+        }
+        parentFn(param){
+            alert(param)
+        }
+        render(){
+            return<Child childProp={this.props.parentProp} childFn={this.parentFn.bind(this)}/>
+        }
+    }
+    Parent.defaultProps={
+        parentProp:'',
+    }
+
+    ReactDOM.render(<Parent parentProp="test"/>,div1)
+</script>
+</body>
+</html>
