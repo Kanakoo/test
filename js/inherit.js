@@ -1,6 +1,13 @@
 /**
  * Created by admini161015 on 2017/5/14.
  */
+/*
+* Object,hasOwnProperty('name')
+* Object.getPrototypeOf(instance)
+* Person.prototype.isPrototypeOf(instance)
+* Object.keys() 可枚举
+* Object.getOwnPropertyNames()
+* */
 //工厂模式 不能知道对象的类型
 function createPerson(name,hobbies){
     var o={};

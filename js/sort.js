@@ -1,6 +1,54 @@
 /**
  * Created by admini161015 on 2017/5/14.
  */
+/*
+基本数据类型
+* undefined
+* null
+* boolean
+* string
+* number
+* 复杂数据类型 object
+*
+* Boolean类型：
+* true:true,非空字符,非零数字(包括无穷大),任何对象,n/a(不适用)
+* false:false,'',0,null,undefined
+*
+*
+* Number类型：
+* NaN==NaN ---->false
+* isNaN(),Number(),parseInt('0xff') parseInt('ff',16),parseFloat('01.02')
+*toFixed(2) toExponential(1) toPrecision(2)
+* String类似：
+* toString(16)(可选参数，null和undefined没有此方法), String(),
+*
+*String类型：
+* charAt() charCodeAt() fromCharCode(101,104,108)
+* concat('','')
+* slice() substr() substring()
+* indexOf() lastIndexOf()
+* str.trim()
+* toLowerCase() to UpperCase()
+* match() search() replace() split()
+* localeCompare()
+*
+*
+* Array类型：
+* Array.isArray(value) 或 value instanceof Array
+* toString() valueOf()//['red','blue'] --->red,blue
+* join('|')
+* push() pop() shift() unshift()
+* sort(compare) reverse()
+* concat([],[],value)
+* slice()
+* splice(0,1,'a','b') //返回删除项的数组或空数组
+*indexOf() lastIndexOf()
+* every() some() filter()　map()　forEach()
+* reduce 归并
+*
+* 基本包装类型：Boolean Number String
+* 单体内置对象：Global(window) Math
+* */
 function addStyle(dom){
     var dom=dom||document.body;
     [].slice.call(dom.children).forEach(function(child){
@@ -76,3 +124,47 @@ function count(str){
     }
     return max;
 }
+function binary(arr,value){
+    var low=0,high=arr.length-1;
+    while(low<=high){
+        var mid=Math.floor((low+high)/2);
+        if(arr[mid]==value){
+            return mid;
+        }
+        if(arr[mid]<value){
+            low=mid+1;
+        }
+        if(arr[mid]>value){
+            high=mid-1;
+        }
+    }
+    return -1;
+}
+Object.prototype.clone=function(){
+    var o=this.constructor==Array?[]:{};
+    for(var e in this){
+        o[e]=typeof this[e]=='object'?this[e].clone():this[e];
+    }
+    return o;
+};
+Array.prototype.unique=function () {
+    var re=[];
+    this.forEach(function (value) {
+        if(re.indexOf(value)==-1){
+            re.push(value);
+        }
+    })
+    return re;
+}
+String.prototype.unique=function(){
+    var re='';
+    for(var i=0;i<this.length;i++){
+        if(re.indexOf(this.charAt(i))==-1){
+            re+=this.charAt(i);
+        }
+    }
+    return re;
+
+}
+
+

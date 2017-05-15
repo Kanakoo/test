@@ -18,3 +18,30 @@ runAsync().then(function(data){
     //......
 }).then(function(data){
     console.log(data);});
+
+function test(){
+    return new Promise(function(resolve,reject){
+        resolve();
+    });
+}
+
+test().then(function(){
+    console.log('resolve1');
+    return test();
+}).then(function(){
+    console.log('resolve2');
+});
+////
+function test1(data){
+    return new Promise(function(resolve,reject){
+        resolve();
+        console.log(data);
+
+    });
+}
+
+test1('re0').then(function(){
+    return test1('re1');
+}).then(function(){
+    return test1('re2');
+});
