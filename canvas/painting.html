@@ -2,21 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>painting now!</title>
     <style>
-        body{
+        html,body{
             padding:0;
             margin:0;
-            background:#aaa;
+            font-family:"微软雅黑";
+            background:#89a;
+        }
+        header{
+            width:100%;
+            height:50px;
+            position:fixed;
+            top:0;
+            left:0;
+            background: #567;
+        }
+        .slogan{
+            position:absolute;
+            left:50%;
+            width:300px;
+            text-align:center;
+            margin-left:-150px;
+            display:inline-block;
+            font-size: 20px;
+            line-height:50px;
+            color:white;
+
         }
         #canvas{
             display:block;
             margin:10px auto;
+            margin-top:60px;
             background:white;
         }
         #menu{
             margin:10px auto;
-            width:80%;
+            width:81%;
             overflow:hidden;
             background:white;
         }
@@ -68,8 +90,10 @@
     </style>
 </head>
 <body>
+<header>
+    <span class="slogan">painting now!</span>
+</header>
 <canvas id="canvas">
-
 </canvas>
 <div id="menu">
     Color:
@@ -81,6 +105,7 @@
     <span class="color" id="purple"></span>
     <span class="color" id="orange"></span>
     <span class="color" id="black"></span>
+    <span class="color" id="white"></span>
     &nbsp;&nbsp;
     PenSize:
     <span class="bold" id="slim">▎</span>
@@ -96,18 +121,19 @@
     <span class="choose" id="fillrect">■</span>
     &nbsp;&nbsp;
     Options:
-    <span class="choose" id="eraser" style="background: url('http://ok47spofd.bkt.clouddn.com/eraser.png') no-repeat"></span>
+    <span class="choose" id="eraser" style="background: url('http://ok47spofd.bkt.clouddn.com/eraser.png') no-repeat;background-size:20px 20px"></span>
     <span class="choose" id="clear">×</span>
+    <span class="choose" id="bucket" style="background: url('http://ok47spofd.bkt.clouddn.com/bucket.png') no-repeat;background-size:20px 20px"></span>
+    当前选色：<span class="choose" id="present_color"></span>
     <br/>
     ChooseFile:
     <input type="file" id="file"/>
-    &nbsp;&nbsp;
-    FilterFile:
+    载入文件后选择:
     <span class="filter" id="grey">grey</span>
     <span class="filter" id="black-white" style="width:100px">black&white</span>
     <span class="filter" id="invert">invert</span>
     <span class="filter" id="mosaic">mosaic</span>
-    <span class="filter" id="blur">blur</span>blurR:<input type="text" id="blurR" value="1" size="3"/>
+    <span class="filter" id="blur">blur</span>输入模糊半径:<input type="text" id="blurR" size="3" placeholder="1~3"/>
     <span class="filter" id="reset">reset</span>
     <br/>
     SaveFile:
@@ -126,27 +152,25 @@
     canvas.width=clientW*0.8;
     canvas.height=clientH*0.8;
     var ctx=canvas.getContext('2d');
-    var color='black';
-    var bold='1';
-    var starImg=new Image();
-    starImg.src='http://ok47spofd.bkt.clouddn.com/star.png';
-    var starNum=60;
-    var stars=[];
-    var deltaTime=0;
-    var lastTime=0;
+    var color=null;
+    var bold=null;
+    var present_color=document.getElementById("present_color");
+    chooseColor("black");
+    chooseBold(1,"slim");
     document.getElementById('menu').addEventListener('click',function (e) {
         switch(e.target.id){
-            case 'yellow':color = 'yellow';break;
-            case 'black':color = 'black';break;
-            case 'green':color = 'green';break;
-            case 'red':color = 'red';break;
-            case 'blue':color = 'blue';break;
-            case 'cyan':color = 'cyan';break;
-            case 'purple':color = 'purple';break;
-            case 'orange':color = 'orange';break;
-            case 'slim':bold = '1';break;
-            case 'middle':bold = '5';break;
-            case 'thick':bold = '10';break;
+            case 'yellow':chooseColor("yellow");break;
+            case 'black':chooseColor("black");break;
+            case 'white':chooseColor("white");break;
+            case 'green':chooseColor("green");break;
+            case 'red':chooseColor("red");break;
+            case 'blue':chooseColor("blue");break;
+            case 'cyan':chooseColor("cyan");break;
+            case 'purple':chooseColor("purple");break;
+            case 'orange':chooseColor("orange");break;
+            case 'slim':chooseBold(1,"slim");break;
+            case 'middle':chooseBold(5,"middle");break;
+            case 'thick':chooseBold(10,"thick");break;
             case 'random':drawRandom();break;
             case 'line':drawLine();break;
             case 'circle':drawCircle();break;
@@ -154,6 +178,7 @@
             case 'rect':drawRect();break;
             case 'fillrect':drawFillRect();break;
             case 'eraser':eraser();break;
+            case 'bucket':bucket();break;
             case 'clear':clear();break;
             case 'save':save();break;
             case 'grey':grey();break;
@@ -168,8 +193,20 @@
     document.getElementById('file').onchange=function () {
         reset();
     };
+    function chooseColor(c){
+        color=c;
+        present_color.style.backgroundColor=color;
+    }
+    function chooseBold(b,size){
+        bold=b;
+        document.getElementsByClassName("bold")[0].style.backgroundColor="white";
+        document.getElementsByClassName("bold")[1].style.backgroundColor="white";
+        document.getElementsByClassName("bold")[2].style.backgroundColor="white";
+        document.getElementById(size).style.backgroundColor="#aaa";
+    }
     function drawRandom() {
         canvas.onmousedown = function (e) {
+            canvas.style.cursor="crosshair";
             ctx.beginPath();
             ctx.moveTo(e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop);
             canvas.onmousemove = function (e) {
@@ -182,12 +219,14 @@
 
         };
         canvas.onmouseup = function () {
+            canvas.style.cursor="default";
             this.onmousemove = null;
         }
     }
     function drawLine(){
         var startx,starty=null;
         canvas.onmousedown = function (e) {
+            canvas.style.cursor="crosshair";
             startx=e.pageX - canvas.offsetLeft;
             starty=e.pageY - canvas.offsetTop;
             ctx.beginPath();
@@ -197,6 +236,7 @@
 
         };
         canvas.onmouseup = function (e) {
+            canvas.style.cursor="default";
             ctx.lineTo(e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop);
             ctx.stroke();
             this.onmousemove = null;
@@ -205,11 +245,13 @@
     function drawRect(){
         var startx,starty,endx,endy=null;
         canvas.onmousedown = function (e) {
+            canvas.style.cursor="crosshair";
             startx=e.pageX - canvas.offsetLeft;
             starty=e.pageY - canvas.offsetTop;
             ctx.beginPath();
             };
         canvas.onmouseup = function (e) {
+            canvas.style.cursor="default";
             endx=e.pageX - canvas.offsetLeft;
             endy=e.pageY - canvas.offsetTop;
             ctx.strokeStyle=color;
@@ -219,6 +261,7 @@
         };
     }
     function drawFillRect(){
+        canvas.style.cursor="crosshair";
         var startx,starty,endx,endy=null;
         canvas.onmousedown = function (e) {
             startx=e.pageX - canvas.offsetLeft;
@@ -226,6 +269,7 @@
             ctx.beginPath();
         };
         canvas.onmouseup = function (e) {
+            canvas.style.cursor="default";
             endx=e.pageX - canvas.offsetLeft;
             endy=e.pageY - canvas.offsetTop;
             ctx.fillStyle=color;
@@ -236,10 +280,12 @@
     function drawCircle(){
         var startx,starty,endx,endy=null;
         canvas.onmousedown = function (e) {
+            canvas.style.cursor="crosshair";
             startx=e.pageX - canvas.offsetLeft;
             starty=e.pageY - canvas.offsetTop;
         };
         canvas.onmouseup = function (e) {
+            canvas.style.cursor="default";
             endx=e.pageX - canvas.offsetLeft;
             endy=e.pageY - canvas.offsetTop;
             ctx.strokeStyle=color;
@@ -256,11 +302,13 @@
     function drawFillCircle(){
         var startx,starty,endx,endy=null;
         canvas.onmousedown = function (e) {
+            canvas.style.cursor="crosshair";
             startx=e.pageX - canvas.offsetLeft;
             starty=e.pageY - canvas.offsetTop;
             ctx.beginPath();
         };
         canvas.onmouseup = function (e) {
+            canvas.style.cursor="default";
             endx=e.pageX - canvas.offsetLeft;
             endy=e.pageY - canvas.offsetTop;
             ctx.fillStyle=color;
@@ -272,9 +320,12 @@
         };
     }
     function eraser(){
-        color='white';
+        color=canvas.style.backgroundColor;
         bold='10';
         drawRandom();
+    }
+    function bucket(){
+        canvas.style.backgroundColor=color;
     }
     function clear(){
         ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -289,7 +340,7 @@
             var r = type.match(/png|jpeg|bmp|gif/)[0];
             return 'image/' + r;
         };
-        imgdata = imgdata.replace(fixtype(type), 'image/octet-stream')
+        imgdata = imgdata.replace(fixtype(type), 'image/octet-stream');
         //将图片保存到本地
         var saveFile = function (data, filename) {
             var link = document.createElement('a');
@@ -368,30 +419,31 @@
         var pixel=imgData.data,tmpPixel=imgData.data;
         var blurR=document.getElementById('blurR').value;
         if(blurR<1||blurR>3){
-            alert('模糊半径范围为1~5！');
-        }
-        for(var i=blurR;i<canvas.height-blurR;i++) {
-            for (var j = blurR; j < canvas.width-blurR; j++) {
-                var tr=0,tg=0,tb=0;
-                for(var dx=-blurR;dx<=blurR;dx++){
-                    for(var dy=-blurR;dy<=blurR;dy++){
-                        var x=i+dx;
-                        var y=j+dy;
-                        var p=x*canvas.width+y;
-                        tr+=tmpPixel[p*4+0];
-                        tg+=tmpPixel[p*4+1];
-                        tb+=tmpPixel[p*4+2];
+            alert('模糊半径范围为1~3！');
+        }else {
+            for (var i = blurR; i < canvas.height - blurR; i++) {
+                for (var j = blurR; j < canvas.width - blurR; j++) {
+                    var tr = 0, tg = 0, tb = 0;
+                    for (var dx = -blurR; dx <= blurR; dx++) {
+                        for (var dy = -blurR; dy <= blurR; dy++) {
+                            var x = i + dx;
+                            var y = j + dy;
+                            var p = x * canvas.width + y;
+                            tr += tmpPixel[p * 4 + 0];
+                            tg += tmpPixel[p * 4 + 1];
+                            tb += tmpPixel[p * 4 + 2];
+                        }
                     }
+                    var p = i * canvas.width + j;
+                    var totalnum = (2 * blurR + 1) * (2 * blurR + 1);
+                    pixel[p * 4] = tr / totalnum;
+                    pixel[p * 4 + 1] = tg / totalnum;
+                    pixel[p * 4 + 2] = tb / totalnum;
                 }
-                var p=i*canvas.width+j;
-                var totalnum=(2*blurR+1)*(2*blurR+1);
-                pixel[p * 4] = tr/totalnum;
-                pixel[p * 4 + 1] = tg/totalnum;
-                pixel[p * 4 + 2] = tb/totalnum;
             }
+            clear();
+            ctx.putImageData(imgData, 0, 0, 0, 0, canvas.width, canvas.height);
         }
-        clear();
-        ctx.putImageData(imgData,0,0,0,0,canvas.width,canvas.height);
     }
     function mosaic() {
         var imgData=ctx.getImageData(0,0,canvas.width,canvas.height);

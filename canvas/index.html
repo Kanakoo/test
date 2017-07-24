@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>welcome!</title>
+    <style>
+        html,body{
+            padding:0;
+            margin:0;
+            font-family:"微软雅黑";
+        }
+        header{
+            width:100%;
+            height:50px;
+            position:fixed;
+            top:0;
+            left:0;
+            background: #567;
+        }
+        .slogan{
+            position:absolute;
+            left:50%;
+            width:300px;
+            text-align:center;
+            margin-left:-150px;
+            display:inline-block;
+            font-size: 20px;
+            line-height:50px;
+            color:white;
+
+        }
+        .show_img{
+            position:relative;
+            width:700px;
+            height:500px;
+            margin:0 auto;
+            margin-top:120px;
+
+        }
+        .ul1{
+            position:relative;
+            list-style-type:none;
+            width:700px;
+            height:500px;
+            margin:0;
+            padding:0;
+        }
+        .ul1 img{
+            position:absolute;
+            width:700px;
+            height:500px;
+        }
+
+        .btn{
+            width:30px;
+            height:50px;
+            position:absolute;
+            top:50%;
+            margin-top:-25px;
+            color:white;
+            background:rgba(0,0,0,0.3);
+            font-size:20px;
+            text-align: center;
+            line-height: 50px;
+            cursor: pointer;
+            z-index: 999;
+        }
+        .btn1{
+            left:0;
+        }
+        .btn2{
+            right:0;
+        }
+        .tags{
+            height:20px;
+            width:66px;
+            position:absolute;
+            top:90%;
+            left:50%;
+            margin-left:-33px;
+        }
+        .tag{
+            width:20px;
+            height:20px;
+            background:rgba(0,0,0,0.3);
+            color:white;
+            float:left;
+            text-align: center;
+            line-height: 20px;
+            margin-right: 2px;
+            border-radius: 100%;
+        }
+        .bg{
+            background: #567;
+        }
+    </style>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+<header>
+    <a class="slogan" href="painting.html">click to paint！</a>
+</header>
+<div class="show_img">
+<ul class='ul1'><li class="img"><img src="http://ok47spofd.bkt.clouddn.com/exam1.jpg"/>
+</li><li class="img"><img src="http://ok47spofd.bkt.clouddn.com/exam2.jpg"/>
+</li><li class="img"><img src="http://ok47spofd.bkt.clouddn.com/pic2.jpg"/></li>
+
+</ul>
+    <div class="btn btn1" onclick="left()"><</div>
+    <div class="btn btn2" onclick="right()">></div>
+    <div class="tags">
+        <div class="tag">1</div>
+        <div class="tag">2</div>
+        <div class="tag">3</div>
+    </div>
+</div>
+<script>var i=0;
+var timer=null;
+var ul=document.getElementsByClassName("ul1")[0];
+function show(i){
+    $(".img").eq(i).fadeIn(300).siblings().fadeOut(300);
+    $(".tag").eq(i).addClass("bg").siblings().removeClass("bg");
+
+}
+function interval(){
+    timer=setInterval(function(){
+        i=(i+1)%3;
+        show(i);
+    },1500)
+}
+function left(){
+    clearInterval(timer);
+    i--;
+    if(i==-1){i=2;}
+    show(i);
+    interval();
+}
+function right(){
+    clearInterval(timer);
+    i++;
+    if(i==3){i=0;}
+    show(i);
+    interval();
+}
+$(".img").eq(0).show().siblings().hide();
+interval();</script>
+</body>
+</html>
