@@ -320,8 +320,7 @@
         };
     }
     function eraser(){
-        color=canvas.style.backgroundColor;
-        bold='10';
+        color=document.defaultView.getComputedStyle(canvas,null).backgroundColor;
         drawRandom();
     }
     function bucket(){
